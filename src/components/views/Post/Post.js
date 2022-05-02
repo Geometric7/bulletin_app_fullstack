@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
@@ -13,15 +14,16 @@ import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
+
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
-// import { connect } from 'react-redux';
-// import { reduxSelector, reduxActionCreator } from '../../../redux/exampleRedux.js';
+import { connect } from 'react-redux';
+import { getUserData } from '../../../redux/sessionAuth';
 
 import styles from './Post.module.scss';
+
+import { Button } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -29,7 +31,7 @@ const useStyles = makeStyles(theme => ({
   },
   media: {
     height: 0,
-    paddingTop: '56.25%', // 16:9
+    paddingTop: '56.25%',
   },
   expand: {
     transform: 'rotate(0deg)',
@@ -44,9 +46,19 @@ const useStyles = makeStyles(theme => ({
   avatar: {
     backgroundColor: red[500],
   },
+  button: {
+   textDecoration: 'none',
+   display: 'inline-block',
+   padding: '5px 10px',
+   margin: '0 5px',
+   textAlign: 'center',
+   color: 'white',
+   backgroundColor: theme.palette.primary[700],
+   borderRadius: '5px',
+  },
 }));
 
-const Component = ({ data }) => {
+const Component = ({ data, user }) => {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
@@ -59,7 +71,7 @@ const Component = ({ data }) => {
       <CardHeader
         avatar={
           <Avatar aria-label='recipe' className={classes.avatar}>
-            {data.author[0]}
+            {data.author.name[0]}
           </Avatar>
         }
         action={
@@ -68,7 +80,7 @@ const Component = ({ data }) => {
           </IconButton>
         }
         title={data.title}
-        subheader={data.publishedDate}
+        subheader={new Date(parseInt(data.publishedDate)).toISOString().slice(0, 10)}
       />
       <CardMedia
         className={classes.media}
@@ -81,12 +93,14 @@ const Component = ({ data }) => {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label='add to favorites'>
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton aria-label='share'>
-          <ShareIcon />
-        </IconButton>
+        <Link to={`/post/${data._id}`} className={classes.button}>
+          See details
+        </Link>
+        {user.loggedIn && user.id === data.author._id && (
+          <Link to={`/post/${data._id}/edit`} className={classes.button}>
+            Edit
+          </Link>
+        )}
         <IconButton
           className={clsx(classes.expand, {
             [classes.expandOpen]: expanded,
@@ -110,14 +124,13 @@ const Component = ({ data }) => {
 
 Component.propTypes = {
   data: PropTypes.shape({
-    id: PropTypes.number.isRequired,
+    _id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
     content: PropTypes.string,
     summary: PropTypes.string.isRequired,
     publishedDate: PropTypes.string,
     updatedDate: PropTypes.string,
-    email: PropTypes.string.isRequired,
-    author: PropTypes.string.isRequired,
+    author: PropTypes.object,
     status: PropTypes.oneOf(['published', 'draft', 'closed']),
     photo: PropTypes.string,
     price: PropTypes.number,
@@ -126,18 +139,10 @@ Component.propTypes = {
   }),
 };
 
-// const mapStateToProps = state => ({
-//   someProp: reduxSelector(state),
-// });
+const mapStateToProps = state => ({
+  user: getUserData(state),
+});
 
-// const mapDispatchToProps = dispatch => ({
-//   someAction: arg => dispatch(reduxActionCreator(arg)),
-// });
+const Container = connect(mapStateToProps)(Component);
 
-// const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
-
-export {
-  Component as Post,
-  // Container as Post,
-  Component as PostComponent,
-};
+export { Container as Post, Component as PostComponent };

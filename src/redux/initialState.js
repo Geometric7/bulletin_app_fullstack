@@ -1,7 +1,7 @@
 export const initialState = {
   posts: {
     data: [
-      {
+      /*{
         id: 1,
         title: 'Post 1',
         summary: 'Post summary post summary',
@@ -120,7 +120,7 @@ export const initialState = {
         photo: 'header2.jpg',
         phone: '111-222-333-444',
         location: 'Warsaw',
-      },
+      },*/
     ],
     loading: {
       active: false,
@@ -130,7 +130,10 @@ export const initialState = {
   user: {
     loggedIn: true,
     name: 'Jessy James',
-    role: 'user',
+    email: 'testomail@mail.com',
+    location: 'Warsaw',
+    role: undefined,
+    id: '526ag79h2ch5j34319jjpq36',
     loading: {
       active: true,
       error: false,

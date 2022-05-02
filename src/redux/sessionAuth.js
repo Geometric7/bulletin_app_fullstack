@@ -1,3 +1,6 @@
+import Axios from 'axios';
+import config from '../config';
+
 /* selectors */
 export const getUserData = ({ user }) => user;
 export const getLoginStatus = ({ user }) => user.loggedIn;
@@ -18,6 +21,9 @@ export const loginSuccess = payload => ({ payload, type: LOGIN_SUCCESS });
 export const loginError = payload => ({ payload, type: LOGIN_ERROR });
 
 /* thunk creators */
+export const loginRequest = () => async (dispatch, getState) => {
+  await Axios.get(`${config.api.baseUrl}/auth/google`);
+};
 
 /* reducer */
 export const reducer = (statePart = [], action = {}) => {
@@ -39,7 +45,6 @@ export const reducer = (statePart = [], action = {}) => {
           active: false,
           error: false,
         },
-        data: action.payload,
       };
     }
     case LOGIN_ERROR: {

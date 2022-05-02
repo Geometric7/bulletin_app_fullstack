@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
-import { AddPostForm } from '../../features/AddPostForm/AddPostForm';
+import { PostForm } from '../../features/PostForm/PostForm';
 import styles from './PostAdd.module.scss';
 
 const Component = ({className, children}) => (
   <div className={clsx(className, styles.root)}>
-    <AddPostForm />
+    <PostForm formTitle='Publish ad' formType='createPost' />
   </div>
 );
 
@@ -16,18 +16,7 @@ Component.propTypes = {
   className: PropTypes.string,
 };
 
-// const mapStateToProps = state => ({
-//   someProp: reduxSelector(state),
-// });
-
-// const mapDispatchToProps = dispatch => ({
-//   someAction: arg => dispatch(reduxActionCreator(arg)),
-// });
-
-// const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
-
 export {
   Component as PostAdd,
-  // Container as PostAdd,
   Component as PostAddComponent,
 };

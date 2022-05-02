@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -17,12 +18,15 @@ import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
+import DeleteIcon from '@material-ui/icons/Delete';
+
 
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
-import { getPostById } from '../../../redux/postsRedux';
+import { deletePostRequest, getPostById } from '../../../redux/postsRedux';
 
 import styles from './OnePost.module.scss';
+import { getUserData } from '../../../redux/sessionAuth';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -36,7 +40,7 @@ const useStyles = makeStyles(theme => ({
   },
   media: {
     height: 0,
-    paddingTop: '56.25%', // 16:9
+    paddingTop: '56.25%',
   },
   expand: {
     transform: 'rotate(0deg)',
@@ -53,9 +57,13 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Component = ({ data }) => {
-  console.log(data);
+const Component = ({ data, deletePost, user }) => {
+  const history = useHistory();
   const classes = useStyles();
+  const handleDelete = () => {
+    deletePost(data._id);
+    history.push('/');
+  };
 
   return (
     <Container className={classes.container}>
@@ -63,7 +71,7 @@ const Component = ({ data }) => {
         <CardHeader
           avatar={
             <Avatar aria-label='recipe' className={classes.avatar}>
-              {data.author[0]}
+              {data.author.name[0]}
             </Avatar>
           }
           action={
@@ -72,7 +80,7 @@ const Component = ({ data }) => {
             </IconButton>
           }
           title={data.title}
-          subheader={data.publishedDate}
+          subheader={new Date(parseInt(data.publishedDate)).toISOString().slice(0, 10)}
         />
         <CardMedia
           className={classes.media}
@@ -91,6 +99,11 @@ const Component = ({ data }) => {
           <IconButton aria-label='share'>
             <ShareIcon />
           </IconButton>
+          {user.id === data.author._id && (
+            <IconButton aria-label='delete' onClick={handleDelete}>
+              <DeleteIcon />
+            </IconButton>
+          )}
         </CardActions>
 
         <CardContent>
@@ -104,26 +117,31 @@ const Component = ({ data }) => {
 
 Component.propTypes = {
   data: PropTypes.shape({
-    id: PropTypes.string.isRequired,
+    _id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     content: PropTypes.string,
     summary: PropTypes.string.isRequired,
     publishedDate: PropTypes.string,
     updatedDate: PropTypes.string,
-    email: PropTypes.string.isRequired,
-    author: PropTypes.string.isRequired,
-    status: PropTypes.oneOf(['published', 'draft', 'closed']),
+    author: PropTypes.object,
     photo: PropTypes.string,
     price: PropTypes.number,
     phone: PropTypes.string,
     location: PropTypes.string,
   }),
+  user: PropTypes.object,
+  deletePost: PropTypes.func,
 };
 
 const mapStateToProps = (state, ownProps) => ({
   data: getPostById(state, ownProps.match.params.id),
+  user: getUserData(state),
 });
 
-const ContainerComponent = connect(mapStateToProps)(Component);
+const mapDispatchToProps = dispatch => ({
+  deletePost: _id => dispatch(deletePostRequest(_id)),
+});
+
+const ContainerComponent = connect(mapStateToProps, mapDispatchToProps)(Component);
 
 export { ContainerComponent as OnePost, Component as OnePostComponent };

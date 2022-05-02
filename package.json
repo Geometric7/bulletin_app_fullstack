@@ -27,7 +27,6 @@
     "redux": "^4.2.0",
     "redux-thunk": "^2.4.1",
     "sass": "^1.51.0",
-    "web-vitals": "^2.1.4",
     "yup": "^0.32.11"
   },
   "scripts": {
@@ -48,8 +47,7 @@
   },
   "lint-staged": {
     "src/**/*.js": [
-      "yarn test-related --",
-      "eslint"
+      "yarn test-related --"
     ]
   },
   "browserslist": {

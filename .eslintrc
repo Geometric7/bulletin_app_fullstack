@@ -33,7 +33,8 @@
       {"SwitchCase": 1}
     ],
     "linebreak-style": [
-      "off"
+      "error",
+      "unix"
     ],
     "quotes": [
       "error",
