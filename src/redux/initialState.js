@@ -127,4 +127,13 @@ export const initialState = {
       error: false,
     },
   },
+  user: {
+    loggedIn: true,
+    name: 'Jessy James',
+    role: 'user',
+    loading: {
+      active: true,
+      error: false,
+    },
+  },
 };

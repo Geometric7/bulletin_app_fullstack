@@ -15,6 +15,8 @@ const useStyles = makeStyles(theme => ({
       margin: theme.spacing(0),
       width: '100%',
       height: '100vh',
+      height: 'minContent',
+      padding: '2rem 1rem',
     },
   },
 }));

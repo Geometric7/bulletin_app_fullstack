@@ -2,15 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
-// import { connect } from 'react-redux';
-// import { reduxSelector, reduxActionCreator } from '../../../redux/exampleRedux.js';
-
+import { AddPostForm } from '../../features/AddPostForm/AddPostForm';
 import styles from './PostAdd.module.scss';
 
 const Component = ({className, children}) => (
   <div className={clsx(className, styles.root)}>
-    <h2>PostAdd</h2>
-    {children}
+    <AddPostForm />
   </div>
 );
 

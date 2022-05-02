@@ -1,27 +1,28 @@
 /* selectors */
-export const getAll = ({posts}) => posts.data;
-export const getPostById = ({ posts }, id) => posts.data.find(post => post.id == id);
+export const getUserData = ({ user }) => user;
+export const getLoginStatus = ({ user }) => user.loggedIn;
+export const getRole = ({ user }) => user.role;
 
 /* action name creator */
-const reducerName = 'posts';
+const reducerName = 'user';
 const createActionName = name => `app/${reducerName}/${name}`;
 
 /* action types */
-const FETCH_START = createActionName('FETCH_START');
-const FETCH_SUCCESS = createActionName('FETCH_SUCCESS');
-const FETCH_ERROR = createActionName('FETCH_ERROR');
+const LOGIN_START = createActionName('LOGIN_START');
+const LOGIN_SUCCESS = createActionName('LOGIN_SUCCESS');
+const LOGIN_ERROR = createActionName('LOGIN_ERROR');
 
 /* action creators */
-export const fetchStarted = payload => ({ payload, type: FETCH_START });
-export const fetchSuccess = payload => ({ payload, type: FETCH_SUCCESS });
-export const fetchError = payload => ({ payload, type: FETCH_ERROR });
+export const loginStarted = payload => ({ payload, type: LOGIN_START });
+export const loginSuccess = payload => ({ payload, type: LOGIN_SUCCESS });
+export const loginError = payload => ({ payload, type: LOGIN_ERROR });
 
 /* thunk creators */
 
 /* reducer */
 export const reducer = (statePart = [], action = {}) => {
   switch (action.type) {
-    case FETCH_START: {
+    case LOGIN_START: {
       return {
         ...statePart,
         loading: {
@@ -30,9 +31,10 @@ export const reducer = (statePart = [], action = {}) => {
         },
       };
     }
-    case FETCH_SUCCESS: {
+    case LOGIN_SUCCESS: {
       return {
         ...statePart,
+        loggedIn: true,
         loading: {
           active: false,
           error: false,
@@ -40,7 +42,7 @@ export const reducer = (statePart = [], action = {}) => {
         data: action.payload,
       };
     }
-    case FETCH_ERROR: {
+    case LOGIN_ERROR: {
       return {
         ...statePart,
         loading: {
