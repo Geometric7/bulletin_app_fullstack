@@ -5,19 +5,13 @@ import clsx from 'clsx';
 
 // import { connect } from 'react-redux';
 // import { reduxSelector, reduxActionCreator } from '../../../redux/exampleRedux.js';
-import Container from '@material-ui/core/Container';
-import { Header } from '../Header/Header';
-import { Paper } from '../Paper/Paper';
-import styles from './MainLayout.module.scss';
+import { AllPosts } from '../../features/AllPosts/AllPosts';
+import styles from './Homepage.module.scss';
 
-const Component = ({ className, children }) => (
+const Component = ({ className }) => (
   <div className={clsx(className, styles.root)}>
-    <Header />
-    <Container maxWidth='lg'>
-      <Paper>
-        <Container maxWidth='lg'>{children}</Container>
-      </Paper>
-    </Container>
+    <h2>Homepage</h2>
+    <AllPosts />
   </div>
 );
 
@@ -37,7 +31,7 @@ Component.propTypes = {
 // const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
 
 export {
-  Component as MainLayout,
-  // Container as MainLayout,
-  Component as MainLayoutComponent,
+  Component as Homepage,
+  // Container as Homepage,
+  Component as HomepageComponent,
 };
