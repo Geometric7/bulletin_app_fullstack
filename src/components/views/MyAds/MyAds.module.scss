@@ -1,0 +1,27 @@
+@import '../../../styles/settings.scss';
+
+.root{
+  .pageHeading{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 1rem 0;
+
+    @media (max-width: 560px) {
+      flex-direction: column;
+    }
+  }
+
+  .button{
+    display: inline-block;
+    text-decoration: none;
+    padding: 1rem 2rem;
+    background-color: $color-primary;
+    border-radius: 5px;
+    color: $color-white;
+  }
+
+  .pageTitle{
+    display: inline-block;
+  }
+}

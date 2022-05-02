@@ -7,16 +7,9 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { connect } from 'react-redux';
-import {
-  getAll,
-  fetchPostsRequest,
-  getIsLoading,
-  getFilters,
-} from '../../../redux/postsRedux';
+import { getAll, fetchPostsRequest, getIsLoading } from '../../../redux/postsRedux';
 
 import { Post } from '../../views/Post/Post';
-
-//import styles from './AllPosts.module.scss';
 
 import { Spinner } from '../../common/Spinner/Spinner';
 
@@ -34,10 +27,10 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Component = ({ posts, isLoading, fetchPosts }) => {
+const Component = ({ posts, isLoading, fetchPosts, onlyMyAds }) => {
   useEffect(() => {
     fetchPosts();
-  }, []);
+  }, [fetchPosts]);
 
   const classes = useStyles();
   return (
@@ -65,14 +58,14 @@ const Component = ({ posts, isLoading, fetchPosts }) => {
 };
 
 Component.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
   posts: PropTypes.array,
   isLoading: PropTypes.bool,
+  fetchPosts: PropTypes.func,
+  onlyMyAds: PropTypes.bool,
 };
 
-const mapStateToProps = state => ({
-  posts: getAll(state),
+const mapStateToProps = (state, ownProps) => ({
+  posts: getAll(state, ownProps.onlyMyAds),
   isLoading: getIsLoading(state),
 });
 

@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 
-import styles from './Paper.module.scss';
-
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
@@ -21,7 +19,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Component = ({ className, children }) => {
+const Component = ({ children }) => {
   const classes = useStyles();
 
   return (
@@ -33,21 +31,6 @@ const Component = ({ className, children }) => {
 
 Component.propTypes = {
   children: PropTypes.node,
-  className: PropTypes.string,
 };
 
-// const mapStateToProps = state => ({
-//   someProp: reduxSelector(state),
-// });
-
-// const mapDispatchToProps = dispatch => ({
-//   someAction: arg => dispatch(reduxActionCreator(arg)),
-// });
-
-// const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
-
-export {
-  Component as Paper,
-  // Container as Paper,
-  Component as PaperComponent,
-};
+export { Component as Paper, Component as PaperComponent };

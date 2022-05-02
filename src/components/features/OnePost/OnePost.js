@@ -4,7 +4,6 @@ import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
 import Container from '@material-ui/core/Container';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -20,12 +19,10 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 import { deletePostRequest, getPostById } from '../../../redux/postsRedux';
 
-import styles from './OnePost.module.scss';
 import { getUserData } from '../../../redux/sessionAuth';
 
 const useStyles = makeStyles(theme => ({

@@ -1,20 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import clsx from 'clsx';
+//import PropTypes from 'prop-types';
 
 import { PostForm } from '../../features/PostForm/PostForm';
-import styles from './PostAdd.module.scss';
 
-const Component = ({className, children}) => (
-  <div className={clsx(className, styles.root)}>
-    <PostForm formTitle='Publish ad' formType='createPost' />
-  </div>
-);
+const Component = () => <PostForm formTitle='Publish ad' formType='createPost' />;
 
-Component.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-};
+//Component.propTypes = {};
 
 export {
   Component as PostAdd,

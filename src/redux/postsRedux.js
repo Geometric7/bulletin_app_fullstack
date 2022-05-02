@@ -2,7 +2,10 @@ import axios from 'axios';
 import config from '../config';
 
 /* selectors */
-export const getAll = ({ posts, filters }) => {
+export const getAll = ({ posts, user }, onlyMyAds = false) => {
+  if (onlyMyAds) {
+    return posts.data.filter(post => post.author.name === user.name);
+  }
   return posts.data;
 };
 
@@ -20,7 +23,6 @@ const CREATE_SUCCESS = createActionName('CREATE_SUCCESS');
 const UPDATE_SUCCESS = createActionName('UPDATE_SUCCESS');
 const DELETE_SUCCESS = createActionName('DELETE_SUCCESS');
 const FETCH_ERROR = createActionName('FETCH_ERROR');
-const ADD_FILTER = createActionName('ADD_FILTER');
 
 /* action creators */
 export const fetchStarted = payload => ({ payload, type: FETCH_START });
@@ -29,7 +31,6 @@ export const createSuccess = payload => ({ payload, type: CREATE_SUCCESS });
 export const updateSuccess = payload => ({ payload, type: UPDATE_SUCCESS });
 export const deleteSuccess = payload => ({ payload, type: DELETE_SUCCESS });
 export const fetchError = payload => ({ payload, type: FETCH_ERROR });
-export const addFilter = payload => ({ payload, type: ADD_FILTER });
 
 /* thunk creators */
 export const fetchPostsRequest = filters => async (dispatch, getState) => {
@@ -39,13 +40,12 @@ export const fetchPostsRequest = filters => async (dispatch, getState) => {
     if (postsDataIsEmpty && !isLoading) {
       dispatch(fetchStarted());
       const { data } = await axios.get(`${config.api.baseUrl}/posts`, {
-       params: { hello: 'words' },
-     });
+        params: { hello: 'words' },
+      });
       if (data.length > 0) {
         dispatch(fetchSuccess(data));
       }
     }
-    console.log('after', getAll(getState()));
   } catch (err) {
     dispatch(fetchError(err));
   }
@@ -55,12 +55,11 @@ export const createPostRequest = postData => async dispatch => {
   try {
     dispatch(fetchStarted());
     const response = await axios({
-     method: 'post',
-     url: `${config.api.baseUrl}/posts`,
-     data: postData,
-     headers: { 'Content-Type': 'multipart/form-data' },
-   });
-    console.log(response);
+      method: 'post',
+      url: `${config.api.baseUrl}/posts`,
+      data: postData,
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
     if (response.statusText === 'OK') {
       dispatch(createSuccess(response.data));
     }
@@ -76,7 +75,6 @@ export const updatePostRequest = postData => async dispatch => {
       `${config.api.baseUrl}/posts/${postData.id}`,
       postData
     );
-    console.log(response);
     if (response.statusText === 'OK') {
       dispatch(updateSuccess(response.data));
     }
@@ -89,7 +87,6 @@ export const deletePostRequest = _id => async dispatch => {
   try {
     dispatch(fetchStarted());
     const response = await axios.delete(`${config.api.baseUrl}/posts/${_id}`);
-    console.log('delete response', response);
     if (response.statusText === 'OK') {
       dispatch(deleteSuccess(_id));
     }
@@ -121,14 +118,16 @@ export const reducer = (statePart = [], action = {}) => {
       };
     }
     case CREATE_SUCCESS: {
-      return {
-        ...statePart,
-        loading: {
-          active: false,
-          error: false,
-        },
-        data: [...statePart.data, action.payload],
-      };
+      if (action.payload.status === 'published') {
+        return {
+          ...statePart,
+          loading: {
+            active: false,
+            error: false,
+          },
+          data: [...statePart.data, action.payload],
+        };
+      }
     }
     case UPDATE_SUCCESS: {
       return {
@@ -161,12 +160,6 @@ export const reducer = (statePart = [], action = {}) => {
         },
       };
     }
-    case ADD_FILTER: {
-     return {
-       ...statePart,
-       filters: { ...statePart.filters, ...action.payload },
-     };
-   }
     default:
       return statePart;
   }

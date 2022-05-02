@@ -15,6 +15,7 @@ import { Post } from './components/views/Post/Post';
 import { PostEdit } from './components/views/PostEdit/PostEdit';
 import { PostAdd } from './components/views/PostAdd/PostAdd';
 import { NotFound } from './components/views/NotFound/NotFound';
+import { MyAds } from './components/views/MyAds/MyAds';
 
 const theme = createTheme({
   palette: {
@@ -32,6 +33,7 @@ const App = () => (
             <Switch>
               <Route exact path='/' component={Homepage} />
               <Route exact path='/post/add' component={PostAdd} />
+              <Route exact path='/post/myads' component={MyAds} />
               <Route exact path='/post/:id' component={OnePost} />
               <Route exact path='/post/:id' component={Post} />
               <Route exact path='/post/:id/edit' component={PostEdit} />

@@ -17,8 +17,8 @@ import {
   updatePostRequest,
   getPostById,
 } from '../../../redux/postsRedux';
-import styles from './PostForm.module.scss';
 import { getUserData } from '../../../redux/sessionAuth';
+import styles from './PostForm.module.scss';
 
 const useStyles = makeStyles({
   container: {
@@ -64,6 +64,7 @@ const Component = ({ formType, formTitle, authorId, createPost, updatePost, ...p
   const { id } = useParams();
   const [file, setFile] = useState(undefined);
   const [previewUrl, setPreviewUrl] = useState(undefined);
+  const [button, setButton] = useState(1);
   useEffect(() => {
     if (!file) {
       return;
@@ -83,7 +84,6 @@ const Component = ({ formType, formTitle, authorId, createPost, updatePost, ...p
     content: '',
   };
   const post = useSelector(state => getPostById(state, id)) || defaultPost;
-  console.log(post);
   const history = useHistory();
   const {
     register,
@@ -105,7 +105,11 @@ const Component = ({ formType, formTitle, authorId, createPost, updatePost, ...p
     formData.append('photo', file);
     console.log('formData', formData);
 
-    if (formType === 'createPost') {
+    if (formType === 'createPost' && button === 1) {
+      formData.append('status', 'published');
+      createPost(formData);
+    } else if (formType === 'createPost' && button === 2) {
+      formData.append('status', 'draft');
       createPost(formData);
   } else if (formType === 'editPost') {
     updatePost({ ...data, id, author: authorId, status: 'published' });
@@ -163,11 +167,23 @@ const Component = ({ formType, formTitle, authorId, createPost, updatePost, ...p
              className={classes.imagePicker}
            />
             <div className={classes.imageContainer}>
-              <img
-                src={previewUrl || `${process.env.PUBLIC_URL}/images/AddImage.jpeg`}
-                alt='image'
-                className={classes.image}
-              />
+            {post.photo ? (
+             <img
+               src={
+                 previewUrl ||
+                 `http://localhost:8000/${post.photo}` ||
+                 `http://localhost:8000/public/images/AddImage.jpeg`
+               }
+               alt='image'
+               className={classes.image}
+             />
+           ) : (
+             <img
+               src={previewUrl || `http://localhost:8000/public/images/AddImage.jpeg`}
+               alt='image'
+               className={classes.image}
+             />
+           )}
             </div>
             <Button onClick={pickImage} className={classes.button}>
               Pick image
@@ -179,7 +195,14 @@ const Component = ({ formType, formTitle, authorId, createPost, updatePost, ...p
               {formTitle}
             </Button>
             {formType === 'createPost' && (
-              <Button type='submit' color='secondary' className={classes.button}>
+              <Button
+               type='submit'
+               color='secondary'
+               className={classes.button}
+               onClick={() => {
+                 setButton(2);
+               }}
+             >
                 Save to draft
               </Button>
             )}
@@ -190,9 +213,15 @@ const Component = ({ formType, formTitle, authorId, createPost, updatePost, ...p
   );
 };
 
-Component.propTypes = {};
+Component.propTypes = {
+  formType: PropTypes.string.isRequired,
+  formTitle: PropTypes.string,
+  authorId: PropTypes.string,
+  createPost: PropTypes.func,
+  updatePost: PropTypes.func,
+};
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = state => ({
   authorId: getUserData(state).id,
   author: getUserData(state).name,
   email: getUserData(state).email,

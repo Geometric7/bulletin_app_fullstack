@@ -7,6 +7,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import styles from './Button.module.scss';
 const useStyles = makeStyles(theme => ({
   button: {
+   textDecoration: 'none',
+   color: theme.palette.primary[100],
    padding: '5px 10px',
    borderRadius: '5px',
    '&:hover': {

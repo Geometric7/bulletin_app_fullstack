@@ -4,12 +4,6 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
 import { connect } from 'react-redux';
-import {
-  getLoginStatus,
-  getRole,
-  getUserData,
-  loginRequest,
-} from '../../../redux/sessionAuth';
 
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -19,12 +13,10 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 
 import Bookmark from '@material-ui/icons/Bookmark';
+import { getLoginStatus, loginRequest } from '../../../redux/sessionAuth';
 import { Button } from '../Button/Button';
 
 import styles from './Navbar.module.scss';
-
-import { initialState } from '../../../redux/initialState';
-import { addFilter } from '../../../redux/postsRedux';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -50,14 +42,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Component = ({ role, authorId, loginStatus, login, addFilter }) => {
+const Component = ({ loginStatus, login }) => {
   const classes = useStyles();
   const handleLogin = () => {
     login();
   };
-  const filterOffers = () => {
-   addFilter({ author: { _id: authorId } });
- };
   return (
     <AppBar position='static' className={classes.appBar}>
       <Container maxWidth='lg'>
@@ -82,7 +71,7 @@ const Component = ({ role, authorId, loginStatus, login, addFilter }) => {
           )}
           {loginStatus && (
             <>
-              <Button action={filterOffers}>My Posts</Button>
+              <Button to='/post/myads'>My Posts</Button>
               <Button>Logout</Button>
             </>
           )}
@@ -94,19 +83,15 @@ const Component = ({ role, authorId, loginStatus, login, addFilter }) => {
 
 Component.propTypes = {
   loginStatus: PropTypes.bool.isRequired,
-  role: PropTypes.oneOf(['admin', 'user']),
   login: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   loginStatus: getLoginStatus(state),
-  role: getRole(state),
-  authorId: getUserData(state).id,
 });
 
 const mapDispatchToProps = dispatch => ({
   login: () => dispatch(loginRequest()),
-  addFilter: filter => dispatch(addFilter(filter)),
 });
 
 
