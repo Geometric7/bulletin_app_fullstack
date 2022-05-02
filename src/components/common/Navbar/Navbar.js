@@ -4,21 +4,27 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
 import { connect } from 'react-redux';
-import { getLoginStatus, getRole, loginRequest } from '../../../redux/sessionAuth';
+import {
+  getLoginStatus,
+  getRole,
+  getUserData,
+  loginRequest,
+} from '../../../redux/sessionAuth';
 
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Container from '@material-ui/core/Container';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 
 import Bookmark from '@material-ui/icons/Bookmark';
+import { Button } from '../Button/Button';
 
 import styles from './Navbar.module.scss';
 
 import { initialState } from '../../../redux/initialState';
+import { addFilter } from '../../../redux/postsRedux';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -44,11 +50,14 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Component = ({ role, loginStatus, login }) => {
+const Component = ({ role, authorId, loginStatus, login, addFilter }) => {
   const classes = useStyles();
   const handleLogin = () => {
     login();
   };
+  const filterOffers = () => {
+   addFilter({ author: { _id: authorId } });
+ };
   return (
     <AppBar position='static' className={classes.appBar}>
       <Container maxWidth='lg'>
@@ -71,10 +80,11 @@ const Component = ({ role, loginStatus, login }) => {
              Login
             </Button>
           )}
-          {loginStatus && ( <>
-            <Button color='inherit'>Account</Button>{' '}
-            <Button color='inherit'>Logout</Button>
-          </>
+          {loginStatus && (
+            <>
+              <Button action={filterOffers}>My Posts</Button>
+              <Button>Logout</Button>
+            </>
           )}
         </Toolbar>
       </Container>
@@ -91,10 +101,12 @@ Component.propTypes = {
 const mapStateToProps = state => ({
   loginStatus: getLoginStatus(state),
   role: getRole(state),
+  authorId: getUserData(state).id,
 });
 
 const mapDispatchToProps = dispatch => ({
   login: () => dispatch(loginRequest()),
+  addFilter: filter => dispatch(addFilter(filter)),
 });
 
 

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { useForm } from 'react-hook-form';
@@ -62,6 +62,19 @@ const useStyles = makeStyles({
 
 const Component = ({ formType, formTitle, authorId, createPost, updatePost, ...props }) => {
   const { id } = useParams();
+  const [file, setFile] = useState(undefined);
+  const [previewUrl, setPreviewUrl] = useState(undefined);
+  useEffect(() => {
+    if (!file) {
+      return;
+    }
+    console.log(file);
+    const fileReader = new FileReader();
+    fileReader.onload = () => {
+      setPreviewUrl(fileReader.result);
+    };
+    fileReader.readAsDataURL(file);
+  }, [file]);
   const defaultPost = {
     title: '',
     price: '',
@@ -83,8 +96,17 @@ const Component = ({ formType, formTitle, authorId, createPost, updatePost, ...p
   const onSubmitHandler = (data, e) => {
     e.preventDefault();
     reset();
+    const formData = new FormData();
+    for (let key in data) {
+      formData.append(`${key}`, data[key]);
+    }
+    formData.append('author', authorId);
+    formData.append('status', 'published');
+    formData.append('photo', file);
+    console.log('formData', formData);
+
     if (formType === 'createPost') {
-    createPost({ ...data, author: authorId, status: 'published' });
+      createPost(formData);
   } else if (formType === 'editPost') {
     updatePost({ ...data, id, author: authorId, status: 'published' });
   }
@@ -93,8 +115,15 @@ const Component = ({ formType, formTitle, authorId, createPost, updatePost, ...p
   const pickImage = e => {
     imagePickerRef.current.click();
   };
+  const imageHandler = event => {
+  if (event.target.files && event.target.files.length !== 0) {
+    const pickedFile = event.target.files[0];
+    setFile(pickedFile);
+    return;
+  }
+};
+
   const fields = [
-   { label: 'Author:', name: 'author', defaultValue: props.author || '' },
    { label: 'Email:', name: 'email', defaultValue: props.email || '' },
    { label: 'Title:', name: 'title', defaultValue: post.title || '' },
    { label: 'Price:', name: 'price', defaultValue: post.price || '' },
@@ -126,10 +155,16 @@ const Component = ({ formType, formTitle, authorId, createPost, updatePost, ...p
           onSubmit={handleSubmit(onSubmitHandler)}
         >
           <div className={classes.image}>
-            <input ref={imagePickerRef} type='file' className={classes.imagePicker} />
+          <input
+             ref={imagePickerRef}
+             onChange={imageHandler}
+             type='file'
+             accept='.jpg,.jpeg,.png'
+             className={classes.imagePicker}
+           />
             <div className={classes.imageContainer}>
               <img
-                src={`${process.env.PUBLIC_URL}/images/AddImage.jpeg`}
+                src={previewUrl || `${process.env.PUBLIC_URL}/images/AddImage.jpeg`}
                 alt='image'
                 className={classes.image}
               />

@@ -7,7 +7,12 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { connect } from 'react-redux';
-import { getAll, fetchPostsRequest, getIsLoading } from '../../../redux/postsRedux';
+import {
+  getAll,
+  fetchPostsRequest,
+  getIsLoading,
+  getFilters,
+} from '../../../redux/postsRedux';
 
 import { Post } from '../../views/Post/Post';
 
@@ -29,18 +34,18 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Component = props => {
+const Component = ({ posts, isLoading, fetchPosts }) => {
   useEffect(() => {
-    props.fetchPosts();
+    fetchPosts();
   }, []);
 
   const classes = useStyles();
   return (
     <div className={clsx(classes.root)}>
-      {props.isLoading && <Spinner />}
-      {!props.isLoading && (
+      {isLoading && <Spinner />}
+      {!isLoading && (
         <Grid container spacing={3}>
-          {props.posts.map(post => (
+          {posts.map(post => (
             <Grid
               key={post._id}
               className={classes.item}

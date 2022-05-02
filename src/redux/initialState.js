@@ -126,13 +126,15 @@ export const initialState = {
       active: false,
       error: false,
     },
+    filters: { author: { _id: '28340' }
+},
   },
   user: {
     loggedIn: true,
-    name: 'Jessy James',
+    name: 'Jessy',
     email: 'testomail@mail.com',
     location: 'Warsaw',
-    role: undefined,
+    role: 'user',
     id: '526ag79h2ch5j34319jjpq36',
     loading: {
       active: true,

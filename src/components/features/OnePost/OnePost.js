@@ -84,8 +84,8 @@ const Component = ({ data, deletePost, user }) => {
         />
         <CardMedia
           className={classes.media}
-          image={`${process.env.PUBLIC_URL}/images/${data.photo}`}
-          title='Paella dish'
+          image={`http://localhost:8000/${data.photo}`}
+          title='Add Photo'
         />
         <CardContent>
           <Typography variant='body2' color='textSecondary' component='p'>

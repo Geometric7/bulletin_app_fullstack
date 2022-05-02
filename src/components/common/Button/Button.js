@@ -1,35 +1,44 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 
 import styles from './Button.module.scss';
 const useStyles = makeStyles(theme => ({
-  root: {
-    '& > *': {
-      margin: theme.spacing(1),
+  button: {
+   padding: '5px 10px',
+   borderRadius: '5px',
+   '&:hover': {
+     backgroundColor: theme.palette.primary['700'],
+     cursor: 'pointer',
     },
   },
 }));
 
-const Component = ({ children, color, action }) => {
+const Component = ({ children, to, action }) => {
   const classes = useStyles();
-  return (
-    <Button
-      onClick={action}
-      variant='contained'
-      color={color}
-      sx={{ backgroundColor: color }}
-    >
-      {children}
-    </Button>
-  );
+  const chooseElement = to => {
+    return (
+      <>
+        {to ? (
+          <Link className={classes.button} onClick={action} to={to}>
+            {children}
+          </Link>
+        ) : (
+          <span onClick={action} className={classes.button}>
+            {children}
+          </span>
+        )}
+      </>
+    );
+  };
+  return <>{chooseElement(to)}</>;
 };
 
 Component.propTypes = {
   children: PropTypes.node,
-  color: PropTypes.string,
+  to: PropTypes.string,
   action: PropTypes.func,
 };
 
