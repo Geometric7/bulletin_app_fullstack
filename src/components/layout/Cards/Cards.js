@@ -11,57 +11,67 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import Link from '@material-ui/core/Link';
 import { connect } from 'react-redux';
-import { getAllPosts } from '../../../redux/postsRedux';
-import clsx from 'clsx';
+import { getAllPosts, fetchPublished } from '../../../redux/postsRedux';
+//import clsx from 'clsx';
 import styles from './Cards.module.scss';
 
-const Component = ({className, posts}) => {
-  return (
-    <div className={clsx(className, styles.root)}>
-      <Container className={styles.cardGrid} maxWidth="md">
-        <Grid container spacing={4}>
-          {posts.map(({ title, image, summary, location, id, created, price }) => (
-            <Grid item key={title} xs={12} sm={6} md={4}>
-              <Link underline='none' href={`${process.env.PUBLIC_URL}/post/${id}`}>
-                <Card className={styles.card}>
-                  <CardMedia
-                    className={styles.cardMedia}
-                    image={image}
-                    title={summary}
-                  />
-                  <CardContent className={styles.cardContent}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      {title}
-                    </Typography>
-                    <Typography className={styles.cardInfo}>
-                      {`${location} - ${created}`}
-                    </Typography>
-                    <Typography className={styles.cardPrice}>
-                      {`Price: ${price}$`}
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    {/*<Button size="small" color="primary">
-                        View
-                    </Button>
-                    <Button size="small" color="primary">
-                        Edit
-                    </Button>*/}
-                  </CardActions>
-                </Card>
-              </Link>
-            </Grid>
-          ))}
-        </Grid>
-      </Container>
-    </div>
-  );
-};
+class Component extends React.Component {
+
+  componentDidMount() {
+    const { fetchPublishedPosts } = this.props;
+    fetchPublishedPosts();
+  }
+
+  render() {
+    const { posts } = this.props;
+    return (
+      <div className={styles.root}>
+        <Container className={styles.cardGrid} maxWidth="md">
+          <Grid container spacing={4}>
+            {posts.map(({ title, image, summary, location, _id, created, price }) => (
+              <Grid item key={title} xs={12} sm={6} md={4}>
+                <Link underline='none' href={`${process.env.PUBLIC_URL}/post/${_id}`}>
+                  <Card className={styles.card}>
+                    <CardMedia
+                      className={styles.cardMedia}
+                      image={image}
+                      title={summary}
+                    />
+                    <CardContent className={styles.cardContent}>
+                      <Typography gutterBottom variant="h5" component="h2">
+                        {title}
+                      </Typography>
+                      <Typography className={styles.cardInfo}>
+                        {`${location} - ${created}`}
+                      </Typography>
+                      <Typography className={styles.cardPrice}>
+                        {`Price: ${price}`}
+                      </Typography>
+                    </CardContent>
+                    <CardActions>
+                      {/*<Button size="small" color="primary">
+                          View
+                      </Button>
+                      <Button size="small" color="primary">
+                          Edit
+                      </Button>*/}
+                    </CardActions>
+                  </Card>
+                </Link>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      </div>
+    );
+  }
+}
 
 Component.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   posts: PropTypes.array,
+  fetchPublishedPosts: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
@@ -69,11 +79,11 @@ const mapStateToProps = state => ({
 });
 
 
-// const mapDispatchToProps = dispatch => ({
-//   someAction: arg => dispatch(reduxActionCreator(arg)),
-// });
+const mapDispatchToProps = dispatch => ({
+  fetchPublishedPosts: () => dispatch(fetchPublished()),
+});
 
-const ReduxContainer = connect(mapStateToProps)(Component);
+const ReduxContainer = connect(mapStateToProps, mapDispatchToProps)(Component);
 
 export {
   //Component as Cards,

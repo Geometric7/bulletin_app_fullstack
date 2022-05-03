@@ -21,7 +21,7 @@
   "lint-staged": {
     "src/**/*.js": [
       "yarn test-related --",
-      "eslint"
+      "eslint --fix"
     ]
   },
   "browserslist": {

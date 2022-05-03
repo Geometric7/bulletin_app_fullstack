@@ -22,7 +22,7 @@ const Component = ({ isLogged, posts, currentUser }) => {
       <Container className={styles.cardGrid} maxWidth="md">
         <Grid container spacing={4}>
           {posts.map((post) => {
-            if (post.name === email) {
+            if (post.author === email) {
               return (<Grid item key={post.id} xs={12} sm={6} md={4}>
                 <Cards post={post} />
               </Grid>);
