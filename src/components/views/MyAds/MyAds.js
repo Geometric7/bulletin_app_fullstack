@@ -1,30 +1,62 @@
+/* eslint-disable linebreak-style */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { getLoginState } from '../../../redux/loginRedux';
+import { getAllPosts } from '../../../redux/postsRedux';
+import { getCurrentUser } from '../../../redux/userRedux';
 
-import clsx from 'clsx';
-
+import { Login } from '../Login/Login';
+import { Cards } from '../../layout/Cards/Cards';
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
+//import clsx from 'clsx';
 import { connect } from 'react-redux';
-import { getLoginStatus } from '../../../redux/sessionAuth';
-import { AllPosts } from '../../features/AllPosts/AllPosts';
+// import { reduxSelector, reduxActionCreator } from '../../../redux/exampleRedux.js';
 import styles from './MyAds.module.scss';
 
-const Component = ({ loginStatus }) => (
-  <div className={clsx(styles.root)}>
-    <div className={styles.pageHeading}>
-      <h2 className={styles.pageTitle}>My Posts</h2>
-    </div>
-    {loginStatus && <AllPosts onlyMyAds={true} />}
-  </div>
-);
+const Component = ({ isLogged, posts, currentUser }) => {
+
+  const { isAdmin, email } = currentUser;
+  if (isLogged) {
+    return (
+      <Container className={styles.cardGrid} maxWidth="md">
+        <Grid container spacing={4}>
+          {posts.map((post) => {
+            if (post.name === email) {
+              return (<Grid item key={post.id} xs={12} sm={6} md={4}>
+                <Cards post={post} />
+              </Grid>);
+            } else if (isAdmin) {
+              return (<Grid item key={post.id} xs={12} sm={6} md={4}>
+                <Cards post={post} />
+              </Grid>);
+            } else {
+              return null;
+            }
+          })}
+        </Grid>
+      </Container>
+    );
+  } else {
+    return <Login />;
+  }
+};
 
 Component.propTypes = {
-  loginStatus: PropTypes.bool.isRequired,
+  isLogged: PropTypes.bool,
+  posts: PropTypes.array,
+  currentUser: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
-  loginStatus: getLoginStatus(state),
+  isLogged: getLoginState(state),
+  posts: getAllPosts(state),
+  currentUser: getCurrentUser(state),
 });
 
-const Container = connect(mapStateToProps)(Component);
+const ReduxContainer = connect(mapStateToProps)(Component);
 
-export { Container as MyAds, Component as MyAdsComponent };
+export {
+  ReduxContainer as MyAds,
+  Component as MyAdsComponent,
+};

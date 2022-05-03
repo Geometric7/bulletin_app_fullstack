@@ -1,1 +1,29 @@
 @import '../../../styles/settings.scss';
+
+.root {
+    font-family: $font-family;
+    font-size: 72px;
+    text-align: center;
+}
+
+.btn {
+    background-color: #6ab04c;
+    width: 280px;
+    margin: 0 auto;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 80px;
+    margin-bottom: 50px;
+    text-decoration: none;
+  
+    a {
+      font-size: 18px;
+      text-decoration: none;
+      color: white;
+      font-family: $font-family;
+      font-weight: 400;
+      padding: 20px;
+      display: block;
+    }
+}

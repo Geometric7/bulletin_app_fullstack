@@ -1,0 +1,1 @@
+export const api = { url: '//' + window.location.hostname + '/api', posts: 'posts'};

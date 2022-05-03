@@ -1,15 +1,16 @@
+/* eslint-disable linebreak-style */
 import React from 'react';
 import PropTypes from 'prop-types';
 
 import clsx from 'clsx';
-
-
 import styles from './NotFound.module.scss';
 
-const Component = ({className, children}) => (
+const Component = ({className}) => (
   <div className={clsx(className, styles.root)}>
-    <h2>404 Not Found</h2>
-    {children}
+    <h1>404 Page not found</h1>
+    <div className={styles.btn}>
+      <a href={`${process.env.PUBLIC_URL}/`} > Back to Homepage</a>
+    </div>
   </div>
 );
 

@@ -1,0 +1,21 @@
+@import '../../../styles/settings.scss';
+
+.root {
+    padding: $base-size;
+    margin-left: auto;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    font-family: 'Dosis', sans-serif;
+}
+
+.link {
+    margin-left: 20px;
+    background-color: #fff;
+    color: #130f40;
+    font-family: 'Dosis', sans-serif;
+
+    &:hover {
+        background-color: #6ab04c;
+    }
+}

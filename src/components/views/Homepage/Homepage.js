@@ -1,37 +1,25 @@
+/* eslint-disable linebreak-style */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-
+import { Head} from '../../layout/Head/Head';
+import { Cards } from '../../layout/Cards/Cards';
 import clsx from 'clsx';
 
-import { connect } from 'react-redux';
-import { getLoginStatus } from '../../../redux/sessionAuth';
-
-import { AllPosts } from '../../features/AllPosts/AllPosts';
 import styles from './Homepage.module.scss';
 
-const Component = ({ loginStatus }) => (
-  <div className={clsx(styles.root)}>
-    <div className={styles.pageHeading}>
-      <h2 className={styles.pageTitle}>All current advertisements</h2>
-      {loginStatus && (
-        <Link to='/post/add' className={styles.button}>
-          ADD ADVERTISEMENT
-        </Link>
-      )}
-    </div>
-    <AllPosts />
+const Component = ({className, children}) => (
+  <div className={clsx(className, styles.root)}>
+    <Head />
+    <Cards />
   </div>
 );
 
 Component.propTypes = {
-  loginStatus: PropTypes.bool.isRequired,
+  children: PropTypes.node,
+  className: PropTypes.string,
 };
 
-const mapStateToProps = state => ({
-  loginStatus: getLoginStatus(state),
-});
-
-const Container = connect(mapStateToProps)(Component);
-
-export { Container as Homepage, Component as HomepageComponent };
+export {
+  Component as Homepage,
+  Component as HomepageComponent,
+};

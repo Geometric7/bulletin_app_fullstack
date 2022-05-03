@@ -1,15 +1,18 @@
+/* eslint-disable linebreak-style */
 import {combineReducers, createStore, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 import { initialState } from './initialState';
 import { reducer as postsReducer } from './postsRedux';
-import { reducer as authReducer } from './sessionAuth';
+import loginReducer from './loginRedux';
+import userReducer from './userRedux';
 
 // define reducers
 const reducers = {
   posts: postsReducer,
-  user: authReducer,
+  isLogged: loginReducer,
+  currentUser: userReducer,
 };
 
 // add blank reducers for initial state properties without reducers
@@ -25,5 +28,7 @@ const combinedReducers = combineReducers(reducers);
 export const store = createStore(
   combinedReducers,
   initialState,
-  composeWithDevTools(applyMiddleware(thunk))
+  composeWithDevTools(
+    applyMiddleware(thunk)
+  )
 );

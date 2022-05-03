@@ -1,148 +1,97 @@
+/* eslint-disable linebreak-style */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+//import clsx from 'clsx';
 import { connect } from 'react-redux';
-
-import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import { red } from '@material-ui/core/colors';
-
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-
-import { getUserData } from '../../../redux/sessionAuth';
-
+import { getAllPosts } from '../../../redux/postsRedux';
+import { getLoginState } from '../../../redux/loginRedux';
+import { getCurrentUser } from '../../../redux/userRedux';
+// import { reduxSelector, reduxActionCreator } from '../../../redux/exampleRedux.js';
+import { Link } from 'react-router-dom';
 import styles from './Post.module.scss';
+import Grid from '@material-ui/core/Grid';
+import Container from '@material-ui/core/Container';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Card from '@material-ui/core/Card';
+import Typography from '@material-ui/core/Typography';
+import { CardActions } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
 
-import { Button } from '@material-ui/core';
+const Component = ({posts, match, isLogged, currentUser}) => {
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    width: '100%',
-  },
-  media: {
-    height: 0,
-    paddingTop: '56.25%',
-  },
-  expand: {
-    transform: 'rotate(0deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
-  },
-  expandOpen: {
-    transform: 'rotate(180deg)',
-  },
-  avatar: {
-    backgroundColor: red[500],
-  },
-  button: {
-   textDecoration: 'none',
-   display: 'inline-block',
-   padding: '5px 10px',
-   margin: '0 5px',
-   textAlign: 'center',
-   color: 'white',
-   backgroundColor: theme.palette.primary[700],
-   borderRadius: '5px',
-  },
-}));
-
-const Component = ({ data, user }) => {
-  const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
-
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
+  const post = posts.find(el => el.id === match.params.id);
+  const { title, image, imageTitle, description, publicationDate, status, location, price, id, authorName, lastUpdate, phone, authorEmail, authorId: postAuthorId } = post;
+  const { isAdmin, id: userId } = currentUser;
+  const isPostAuthor = postAuthorId === userId ? true : false;
 
   return (
-    <Card className={classes.root}>
-      <CardHeader
-        avatar={
-          <Avatar aria-label='recipe' className={classes.avatar}>
-            {data.author.name[0]}
-          </Avatar>
-        }
-        action={
-          <IconButton aria-label='settings'>
-            <MoreVertIcon />
-          </IconButton>
-        }
-        title={data.title}
-        subheader={new Date(parseInt(data.publishedDate)).toISOString().slice(0, 10)}
-      />
-      <CardMedia
-        className={classes.media}
-        image={`http://localhost:8000/${data.photo}`}
-        title='Title'
-      />
-      <CardContent>
-        <Typography variant='body2' color='textSecondary' component='p'>
-          {data.summary}
-        </Typography>
-      </CardContent>
-      <CardActions disableSpacing>
-        <Link to={`/post/${data._id}`} className={classes.button}>
-          See details
-        </Link>
-        {user.loggedIn && user.id === data.author._id && (
-          <Link to={`/post/${data._id}/edit`} className={classes.button}>
-            Edit
-          </Link>
-        )}
-        <IconButton
-          className={clsx(classes.expand, {
-            [classes.expandOpen]: expanded,
-          })}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label='show more'
-        >
-          <ExpandMoreIcon />
-        </IconButton>
-      </CardActions>
-      <Collapse in={expanded} timeout='auto' unmountOnExit>
-        <CardContent>
-          <Typography paragraph>Advertisement:</Typography>
-          <Typography paragraph>{data.content}</Typography>
-        </CardContent>
-      </Collapse>
-    </Card>
+    <Container className={styles.cardGrid} maxWidth="md">
+      <Grid item>
+        <Card className={styles.card}>
+          <CardMedia
+            className={styles.cardMedia}
+            image={image}
+            title={imageTitle}
+          />
+          <CardContent className={styles.cardContent}>
+            <Typography className={styles.cardInfo}>
+              {`${location} - ${publicationDate}`}
+            </Typography>
+            <Typography gutterBottom variant="h5" component="h2" className={styles.cardTitle}>
+              {title}
+            </Typography>
+            <Typography className={styles.cardPrice}>
+              {`Price: ${price}$`}
+            </Typography>
+            <Typography className={styles.cardDesc}>
+              {description}
+            </Typography>
+            <Typography className={styles.cardAuthor}>
+              {`Seller: ${authorName}`}
+            </Typography>
+            <Typography className={styles.cardPhone}>
+              {`Phone: ${phone}`}
+            </Typography>
+            {(isLogged && (isPostAuthor || isAdmin)) && (<Typography>
+              {`Status: ${status}`}
+            </Typography>)}
+          </CardContent>
+          <CardActions className={styles.cardActions}>
+            {(isLogged && (isPostAuthor || isAdmin)) && (<Button component={Link} size="medium" color="primary" variant="contained" to={`${process.env.PUBLIC_URL}/post/${id}/edit`}>
+                Edit
+            </Button>)}
+            <Button size="medium" color="primary" variant="contained" href={`mailto:${authorEmail}`}>
+              Email to seller
+            </Button>
+            <Typography className={styles.publicationDate}>
+              {`Edited: ${lastUpdate}`}
+            </Typography>
+          </CardActions>
+        </Card>
+      </Grid>
+    </Container>
   );
 };
 
 Component.propTypes = {
-  data: PropTypes.shape({
-    _id: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired,
-    content: PropTypes.string,
-    summary: PropTypes.string.isRequired,
-    publishedDate: PropTypes.string,
-    updatedDate: PropTypes.string,
-    author: PropTypes.object,
-    status: PropTypes.oneOf(['published', 'draft', 'closed']),
-    photo: PropTypes.string,
-    price: PropTypes.number,
-    phone: PropTypes.string,
-    location: PropTypes.string,
-  }),
+  children: PropTypes.node,
+  posts: PropTypes.array,
+  match: PropTypes.object,
+  isLogged: PropTypes.bool,
+  currentUser: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
-  user: getUserData(state),
+  posts: getAllPosts(state),
+  isLogged: getLoginState(state),
+  currentUser: getCurrentUser(state),
 });
 
-const Container = connect(mapStateToProps)(Component);
 
-export { Container as Post, Component as PostComponent };
+const ReduxContainer = connect(mapStateToProps)(Component);
+
+export {
+  ReduxContainer as Post,
+  Component as PostComponent,
+};
