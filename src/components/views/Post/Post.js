@@ -21,7 +21,7 @@ import Button from '@material-ui/core/Button';
 const Component = ({posts, match, isLogged, currentUser}) => {
 
   const post = posts.find(el => el.id === match.params.id);
-  const { title, image, imageTitle, description, publicationDate, status, location, price, id, authorName, lastUpdate, phone, authorEmail, authorId: postAuthorId } = post;
+  const { title, image, summary, text, created, status, location, price, id, name, changed, phone, email, authorId: postAuthorId } = post;
   const { isAdmin, id: userId } = currentUser;
   const isPostAuthor = postAuthorId === userId ? true : false;
 
@@ -32,11 +32,11 @@ const Component = ({posts, match, isLogged, currentUser}) => {
           <CardMedia
             className={styles.cardMedia}
             image={image}
-            title={imageTitle}
+            title={summary}
           />
           <CardContent className={styles.cardContent}>
             <Typography className={styles.cardInfo}>
-              {`${location} - ${publicationDate}`}
+              {`${location} - ${created}`}
             </Typography>
             <Typography gutterBottom variant="h5" component="h2" className={styles.cardTitle}>
               {title}
@@ -45,10 +45,10 @@ const Component = ({posts, match, isLogged, currentUser}) => {
               {`Price: ${price}$`}
             </Typography>
             <Typography className={styles.cardDesc}>
-              {description}
+              {text}
             </Typography>
             <Typography className={styles.cardAuthor}>
-              {`Seller: ${authorName}`}
+              {`Seller: ${name}`}
             </Typography>
             <Typography className={styles.cardPhone}>
               {`Phone: ${phone}`}
@@ -61,11 +61,11 @@ const Component = ({posts, match, isLogged, currentUser}) => {
             {(isLogged && (isPostAuthor || isAdmin)) && (<Button component={Link} size="medium" color="primary" variant="contained" to={`${process.env.PUBLIC_URL}/post/${id}/edit`}>
                 Edit
             </Button>)}
-            <Button size="medium" color="primary" variant="contained" href={`mailto:${authorEmail}`}>
+            <Button size="medium" color="primary" variant="contained" href={`mailto:${email}`}>
               Email to seller
             </Button>
             <Typography className={styles.publicationDate}>
-              {`Edited: ${lastUpdate}`}
+              {`Edited: ${changed}`}
             </Typography>
           </CardActions>
         </Card>

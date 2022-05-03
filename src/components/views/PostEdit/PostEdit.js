@@ -14,8 +14,8 @@ import { getCurrentUser } from '../../../redux/userRedux';
 import { getAllPosts } from '../../../redux/postsRedux';
 import styles from './PostEdit.module.scss';
 
-const Component = ({isLogged, currentUser, title, image, imageTitle, description, price, authorName, phone, authorEmail, authorId: postAuthorId}) => {
-    
+const Component = ({isLogged, currentUser, title, image, summary, text, price, name, phone, email, authorId: postAuthorId}) => {
+
   const { isAdmin, id: userId } = currentUser;
   const isPostAuthor = postAuthorId === userId ? true : false;
 
@@ -31,23 +31,23 @@ const Component = ({isLogged, currentUser, title, image, imageTitle, description
               <Grid item xs={12} sm={6}>
                 <TextField
                   required
-                  id="authorName"
-                  name="authorName"
+                  id="name"
+                  name="name"
                   label="First name"
                   fullWidth
                   autoComplete="given-name"
-                  value={authorName}
+                  value={name}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   required
-                  id="authorEmail"
-                  name="authorEmail"
+                  id="email"
+                  name="email"
                   label="Email address"
                   fullWidth
                   autoComplete="email"
-                  value={authorEmail}
+                  value={email}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -63,11 +63,11 @@ const Component = ({isLogged, currentUser, title, image, imageTitle, description
               <Grid item xs={12}>
                 <TextField
                   required
-                  id="description"
-                  name="description"
+                  id="text"
+                  name="text"
                   label="Description"
                   fullWidth
-                  value={description}
+                  value={text}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -103,11 +103,11 @@ const Component = ({isLogged, currentUser, title, image, imageTitle, description
               <Grid item xs={12} sm={6}>
                 <TextField
                   required
-                  id="imageTitle"
-                  name="imageTitle"
+                  id="summary"
+                  name="summary"
                   label="Image title"
                   fullWidth
-                  value={imageTitle}
+                  value={summary}
                 />
               </Grid>
             </Grid>

@@ -15,18 +15,18 @@ import styles from './PostAdd.module.scss';
 
 class Component extends React.Component {
   state = {
-    authorName: '',
-    authorEmail: '',
+    name: '',
+    email: '',
     title: '',
-    description: '',
+    text: '',
     status: '',
     location: '',
     price: '',
     phone: '',
     image: '',
-    imageTitle: '',
-    publicationDate: '',
-    lastUpdate: '',
+    summary: '',
+    created: '',
+    changed: '',
   }
 
   handleClick() {
@@ -36,18 +36,18 @@ class Component extends React.Component {
     this.setState({publicationDate: currentDate.toISOString(), lastUpdate: currentDate.toISOString(), status: 'published'}, () => {
       postToAPI(this.state);
       this.setState({
-        authorName: '',
-        authorEmail: '',
+        name: '',
+        email: '',
         title: '',
-        description: '',
+        text: '',
         status: '',
         location: '',
         price: '',
         phone: '',
         image: '',
-        imageTitle: '',
-        publicationDate: '',
-        lastUpdate: '',
+        summary: '',
+        created: '',
+        changed: '',
       });
     });
   }
@@ -66,23 +66,23 @@ class Component extends React.Component {
                 <Grid item xs={12} sm={6}>
                   <TextField
                     required
-                    id="authorName"
-                    name="authorName"
+                    id="name"
+                    name="name"
                     label="First name"
                     fullWidth
                     autoComplete="given-name"
-                    onChange={(e) => this.setState({ authorName: e.target.value })}
+                    onChange={(e) => this.setState({ name: e.target.value })}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
                     required
-                    id="authorEmail"
-                    name="authorEmail"
+                    id="email"
+                    name="email"
                     label="Email address"
                     fullWidth
                     autoComplete="email"
-                    onChange={(e) => this.setState({ authorEmail: e.target.value })}
+                    onChange={(e) => this.setState({ email: e.target.value })}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -98,11 +98,11 @@ class Component extends React.Component {
                 <Grid item xs={12}>
                   <TextField
                     required
-                    id="description"
-                    name="description"
+                    id="text"
+                    name="text"
                     label="Description"
                     fullWidth
-                    onChange={(e) => this.setState({ description: e.target.value })}
+                    onChange={(e) => this.setState({ text: e.target.value })}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -138,11 +138,11 @@ class Component extends React.Component {
                 <Grid item xs={12} sm={6}>
                   <TextField
                     required
-                    id="imageTitle"
-                    name="imageTitle"
+                    id="summary"
+                    name="summary"
                     label="Image title"
                     fullWidth
-                    onChange={(e) => this.setState({ imageTitle: e.target.value })}
+                    onChange={(e) => this.setState({ summary: e.target.value })}
                   />
                 </Grid>
               </Grid>

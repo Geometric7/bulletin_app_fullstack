@@ -20,21 +20,21 @@ const Component = ({className, posts}) => {
     <div className={clsx(className, styles.root)}>
       <Container className={styles.cardGrid} maxWidth="md">
         <Grid container spacing={4}>
-          {posts.map(({ title, image, imageTitle, location, id, publicationDate, price }) => (
+          {posts.map(({ title, image, summary, location, id, created, price }) => (
             <Grid item key={title} xs={12} sm={6} md={4}>
               <Link underline='none' href={`${process.env.PUBLIC_URL}/post/${id}`}>
                 <Card className={styles.card}>
                   <CardMedia
                     className={styles.cardMedia}
                     image={image}
-                    title={imageTitle}
+                    title={summary}
                   />
                   <CardContent className={styles.cardContent}>
                     <Typography gutterBottom variant="h5" component="h2">
                       {title}
                     </Typography>
                     <Typography className={styles.cardInfo}>
-                      {`${location} - ${publicationDate}`}
+                      {`${location} - ${created}`}
                     </Typography>
                     <Typography className={styles.cardPrice}>
                       {`Price: ${price}$`}
