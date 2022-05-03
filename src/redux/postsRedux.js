@@ -143,8 +143,8 @@ export const reducer = (statePart = [], action = {}) => {
       return {
         ...statePart,
         data: [
-          ...statePart.data,
           action.payload,
+          ...statePart.data,
         ],
       };
     }

@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 //import clsx from 'clsx';
 import { connect } from 'react-redux';
-import { getAllPosts, fetchPostDetails } from '../../../redux/postsRedux';
+import { getCurrentPost, fetchPostDetails } from '../../../redux/postsRedux';
 import { getLoginState } from '../../../redux/loginRedux';
 import { getCurrentUser } from '../../../redux/userRedux';
 // import { reduxSelector, reduxActionCreator } from '../../../redux/exampleRedux.js';
@@ -91,7 +91,7 @@ Component.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  posts: getAllPosts(state),
+  post: getCurrentPost(state),
   isLogged: getLoginState(state),
   currentUser: getCurrentUser(state),
 });

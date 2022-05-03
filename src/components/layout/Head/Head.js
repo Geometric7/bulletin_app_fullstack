@@ -1,10 +1,10 @@
+/* eslint-disable linebreak-style */
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import { getLoginState } from '../../../redux/loginRedux';
 import { connect } from 'react-redux';
-// import { reduxSelector, reduxActionCreator } from '../../../redux/exampleRedux.js';
 
 import styles from './Head.module.scss';
 import Container from '@material-ui/core/Container';
@@ -22,8 +22,8 @@ const Component = ({ className, children, isLogged }) => {
         </Typography>
         <div>
           <Grid container spacing={2} justifyContent="center">
-            <Grid item>
-              {isLogged && <Button className={styles.headButtons} variant="contained" color="primary" href={`${process.env.PUBLIC_URL}/post/add`}>
+           <Grid item>
+            {isLogged && <Button component={Link} className={styles.heroButtons} variant="contained" color="primary" to={`${process.env.PUBLIC_URL}/post/add`}>
                 Add new Ad
               </Button>}
             </Grid>

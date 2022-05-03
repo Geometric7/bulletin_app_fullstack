@@ -70,23 +70,12 @@ class Component extends React.Component {
                 <Grid item xs={12} sm={6}>
                   <TextField
                     required
-                    id="name"
-                    name="name"
-                    label="First name"
-                    fullWidth
-                    autoComplete="given-name"
-                    onChange={(e) => this.setState({ name: e.target.value })}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    required
                     id="email"
                     name="email"
                     label="Email address"
                     fullWidth
                     autoComplete="email"
-                    onChange={(e) => this.setState({ email: e.target.value })}
+                    onChange={(e) => this.setState({ author: e.target.value })}
                   />
                 </Grid>
                 <Grid item xs={12}>
