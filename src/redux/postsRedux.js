@@ -46,26 +46,11 @@ export const fetchPublished = () => {
   };
 };
 
-//export const fetchFromAPI = () => {
-//return (dispatch, getState) => {
-//dispatch(fetchStarted());
-
-//Axios
-//.get(`${api.url}/${api.posts}`)
-//.then(res => {
-//dispatch(fetchSuccess(res.data));
-//})
-//.catch(err => {
-//dispatch(fetchError(err.message || true));
-//});
-//};
-//};
-
-export const fetchPostDetails = _id => {
+export const fetchPostDetails = id => {
   return (dispatch, getState) => {
     dispatch(fetchStarted());
     Axios
-      .get(`http://localhost:8000/api/posts/${_id}`)
+      .get(`http://localhost:8000/api/posts/${id}`)
       .then(res => {
         dispatch(fetchPostSuccess(res.data));
       })
@@ -135,7 +120,7 @@ export const reducer = (statePart = [], action = {}) => {
       return {
         ...statePart,
         data: [
-          ...statePart.data.map(post => post._id === action.payload._id ? action.payload : post),
+          ...statePart.data.map(post => post.id === action.payload.id ? action.payload : post),
         ],
       };
     }

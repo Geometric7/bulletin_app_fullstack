@@ -22,8 +22,8 @@ const Component = ({ className, children, isLogged }) => {
         </Typography>
         <div>
           <Grid container spacing={2} justifyContent="center">
-           <Grid item>
-            {isLogged && <Button component={Link} className={styles.heroButtons} variant="contained" color="primary" to={`${process.env.PUBLIC_URL}/post/add`}>
+            <Grid item>
+              {isLogged && <Button component={Link} className={styles.heroButtons} variant="contained" color="primary" to={`${process.env.PUBLIC_URL}/post/add`}>
                 Add new Ad
               </Button>}
             </Grid>

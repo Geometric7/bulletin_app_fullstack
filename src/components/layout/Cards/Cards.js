@@ -24,6 +24,7 @@ class Component extends React.Component {
 
   render() {
     const { posts } = this.props;
+
     return (
       <div className={styles.root}>
         <Container className={styles.cardGrid} maxWidth="md">
@@ -34,7 +35,7 @@ class Component extends React.Component {
                   <Card className={styles.card}>
                     <CardMedia
                       className={styles.cardMedia}
-                      image={image}
+                      image={image || 'https://www.pngfind.com/pngs/m/66-661092_png-file-upload-image-icon-png-transparent-png.png'}
                       title={summary}
                     />
                     <CardContent className={styles.cardContent}>

@@ -11,7 +11,7 @@ import TextField from '@material-ui/core/TextField';
 import { connect } from 'react-redux';
 import { getLoginState } from '../../../redux/loginRedux';
 import { getCurrentUser } from '../../../redux/userRedux';
-import { getAllPosts } from '../../../redux/postsRedux';
+import { getAllPosts, fetchPostDetails } from '../../../redux/postsRedux';
 import styles from './PostEdit.module.scss';
 
 class Component extends React.Component {
@@ -144,6 +144,11 @@ const mapStateToProps = state => ({
   post: getAllPosts(state),
   isLogged: getLoginState(state),
   currentUser: getCurrentUser(state),
+  fetchPostDetails: PropTypes.func,
+});
+
+const mapDispatchToProps = dispatch => ({
+  fetchPostDetails: (id) => dispatch(fetchPostDetails(id)),
 });
 
 const Container = connect(mapStateToProps)(Component);
