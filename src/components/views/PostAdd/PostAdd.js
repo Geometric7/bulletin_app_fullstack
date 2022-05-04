@@ -30,9 +30,9 @@ class Component extends React.Component {
   }
 
   componentDidMount() {
-      const { postToAPI } = this.props;
-      postToAPI();
-    }
+    const { postToAPI } = this.props;
+    postToAPI();
+  }
 
   handleClick() {
     const currentDate = new Date();

@@ -126,9 +126,9 @@ class Component extends React.Component {
       return <NotFound />;
     } else {
       return <Login />;
-    };
-  };
-};
+    }
+  }
+}
 
 Component.propTypes = {
   children: PropTypes.node,
