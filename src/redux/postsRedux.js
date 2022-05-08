@@ -62,13 +62,13 @@ export const fetchPostDetails = (_id) => {
 
 export const postToAPI = (post) => {
   return (dispatch) => {
-   dispatch(fetchStarted());
-   Axios.post(`http://localhost:8000/api/posts/add`, post)
-     .then((res) => {
-       dispatch(addPost(post));
+    dispatch(fetchStarted());
+    Axios.post(`http://localhost:8000/api/posts/add`, post)
+      .then((res) => {
+        dispatch(addPost(post));
       })
       .catch((err) => {
-  dispatch(fetchError(err.message || true));
+        dispatch(fetchError(err.message || true));
       });
   };
 };

@@ -19,7 +19,7 @@ import styles from './PostAdd.module.scss';
 
 class Component extends React.Component {
   state = {
-     post: {
+    post: {
       author: '',
       name: '',
       title: '',
@@ -43,37 +43,37 @@ class Component extends React.Component {
   };
 
   submitForm = (e) => {
-   const { post } = this.state;
-   const { addNewPost } = this.props;
-   e.preventDefault();
+    const { post } = this.state;
+    const { addNewPost } = this.props;
+    e.preventDefault();
 
-   let error = null;
-     const emailPattern = new RegExp(
-       '^[a-zA-Z0-9][a-zA-Z0-9_.-]+@[a-zA-Z0-9][a-zA-Z0-9_.-]+.{1,3}[a-zA-Z]{2,4}'
-     );
+    let error = null;
+    const emailPattern = new RegExp(
+      '^[a-zA-Z0-9][a-zA-Z0-9_.-]+@[a-zA-Z0-9][a-zA-Z0-9_.-]+.{1,3}[a-zA-Z]{2,4}'
+    );
 
-     if (post.title.length < 10) {
-     alert('The title is too short');
-     error = 'text too short';
-   } else if (post.text.length < 20) {
-     alert('The content is too short');
-     error = 'text too short';
-   } else if (!emailPattern.test(post.author)) {
-     alert('Your email adress is not valid!');
-     error = 'wrong email';
-   }
-   if (!error ) {
-     post.created = new Date().toISOString();
-     post.changed = post.created;
+    if (post.title.length < 10) {
+      alert('The title is too short');
+      error = 'text too short';
+    } else if (post.text.length < 20) {
+      alert('The content is too short');
+      error = 'text too short';
+    } else if (!emailPattern.test(post.author)) {
+      alert('Your email adress is not valid!');
+      error = 'wrong email';
+    }
+    if (!error ) {
+      post.created = new Date().toISOString();
+      post.changed = post.created;
 
-     addNewPost(post);
-     console.log('add', addNewPost(post));
+      addNewPost(post);
+      console.log('add', addNewPost(post));
 
-     alert('Thank you for your add!');
-   } else {
-     alert('Please correct errors!');
-   }
- };
+      alert('Thank you for your add!');
+    } else {
+      alert('Please correct errors!');
+    }
+  };
 
   render() {
     const {className, isLogged} = this.props;
@@ -83,113 +83,113 @@ class Component extends React.Component {
         <div className={clsx(className, styles.root)}>
           <main className={styles.layout}>
             <Paper className={styles.paper}>
-            <form onSubmit={this.submitForm}>
-             <Typography component="h1" variant="h4" align="center">
+              <form onSubmit={this.submitForm}>
+                <Typography component="h1" variant="h4" align="center">
                 Add new advertisement
                 </Typography>
-                 <Grid container spacing={3}>
-                   <Grid item xs={12} sm={6}>
-                     <TextField
-                       required
-                       name="author"
-                       label="Email address"
-                       fullWidth
-                       autoComplete="email"
-                       onChange={this.handleChange}
-                       helperText="Put your vaild email"
-                     />
-                   </Grid>
-                   <Grid item xs={12} sm={6}>
-                     <TextField
-                       required
-                       name="name"
-                       label="Your name"
-                       fullWidth
-                       autoComplete="name"
-                       onChange={this.handleChange}
-                       helperText="Your name"
-                     />
-                   </Grid>
-                   <Grid item xs={12}>
-                     <TextField
-                       required
-                       name="title"
-                       label="Title"
-                       fullWidth
-                       onChange={this.handleChange}
-                       helperText="min. 10 characters"
-                     />
-                   </Grid>
-                   <Grid item xs={12}>
-                     <TextField
-                       required
-                       name="text"
-                       label="Description"
-                       fullWidth
-                       onChange={this.handleChange}
-                       helperText="min. 20 characters"
-                     />
-                   </Grid>
-                   <Grid item xs={12} sm={6}>
-                     <TextField
-                       required
-                       name="phone"
-                       label="Phone"
-                       fullWidth
-                       onChange={this.handleChange}
-                       helperText="Give your contact number"
-                     />
-                   </Grid>
-                   <Grid item xs={12} sm={6}>
-                     <TextField
-                       required
-                       name="price"
-                       label="Price"
-                       fullWidth
-                       onChange={this.handleChange}
-                       helperText="Price in USD"
-                     />
-                   </Grid>
-                   <Grid item xs={12} sm={6}>
-                     <TextField
-                       required
-                       name="image"
-                       label="Image link"
-                       fullWidth
-                       onChange={this.handleChange}
-                       helperText="Add photo link"
-                     />
-                   </Grid>
-                   <Grid item xs={12} sm={6}>
-                     <TextField
-                       required
-                       name="location"
-                       label="Location"
-                       fullWidth
-                       onChange={this.handleChange}
-                       helperText="Add your location"
-                     />
-                   </Grid>
-                   <Grid item align="center" xs={12} sm={6}>
-                     <FormControl fullWidth>
-                       <InputLabel id="status">Set status</InputLabel>
-                       <Select
-                         labelId="status"
-                         id="status"
-                         onChange={this.handleChange}
-                         fullWidth
-                         variant="filled"
-                         name="status"
-                         value={post.status}
-                       >
-                         <MenuItem value="draft">Draft</MenuItem>
-                         <MenuItem value="published">Published</MenuItem>
-                         <MenuItem value="closed">Closed</MenuItem>
-                       </Select>
-                     </FormControl>
-                   </Grid>
-              </Grid>
-              <div className={styles.buttons}>
+                <Grid container spacing={3}>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      required
+                      name="author"
+                      label="Email address"
+                      fullWidth
+                      autoComplete="email"
+                      onChange={this.handleChange}
+                      helperText="Put your vaild email"
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      required
+                      name="name"
+                      label="Your name"
+                      fullWidth
+                      autoComplete="name"
+                      onChange={this.handleChange}
+                      helperText="Your name"
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      required
+                      name="title"
+                      label="Title"
+                      fullWidth
+                      onChange={this.handleChange}
+                      helperText="min. 10 characters"
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      required
+                      name="text"
+                      label="Description"
+                      fullWidth
+                      onChange={this.handleChange}
+                      helperText="min. 20 characters"
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      required
+                      name="phone"
+                      label="Phone"
+                      fullWidth
+                      onChange={this.handleChange}
+                      helperText="Give your contact number"
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      required
+                      name="price"
+                      label="Price"
+                      fullWidth
+                      onChange={this.handleChange}
+                      helperText="Price in USD"
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      required
+                      name="image"
+                      label="Image link"
+                      fullWidth
+                      onChange={this.handleChange}
+                      helperText="Add photo link"
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      required
+                      name="location"
+                      label="Location"
+                      fullWidth
+                      onChange={this.handleChange}
+                      helperText="Add your location"
+                    />
+                  </Grid>
+                  <Grid item align="center" xs={12} sm={6}>
+                    <FormControl fullWidth>
+                      <InputLabel id="status">Set status</InputLabel>
+                      <Select
+                        labelId="status"
+                        id="status"
+                        onChange={this.handleChange}
+                        fullWidth
+                        variant="filled"
+                        name="status"
+                        value={post.status}
+                      >
+                        <MenuItem value="draft">Draft</MenuItem>
+                        <MenuItem value="published">Published</MenuItem>
+                        <MenuItem value="closed">Closed</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                </Grid>
+                <div className={styles.buttons}>
                   <Button
                     variant="contained"
                     color="primary"
@@ -197,8 +197,8 @@ class Component extends React.Component {
                     type="submit"
                   >
                   Add
-                </Button>
-              </div>
+                  </Button>
+                </div>
               </form>
             </Paper>
           </main>
