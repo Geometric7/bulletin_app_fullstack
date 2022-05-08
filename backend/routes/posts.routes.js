@@ -99,7 +99,7 @@ router.post('/posts/add', async (req, res) => {
       throw new Error('Wrong input!');
     }
   } catch (err) {
-    res.status(500).json(err);
+    res.status(400).json(err);
   }
 });
 

@@ -31,9 +31,9 @@ export const addPost = payload => ({ payload, type: ADD_POST});
 
 export const fetchPublished = () => {
   return (dispatch, getState) => {
-    dispatch(fetchStarted());
     const state = getState();
     if (state.posts.data.length === 0 && state.posts.loading.active) {
+      dispatch(fetchStarted());
       Axios
         .get(`${api.url}/${api.posts}`)
         .then(res => {
@@ -43,6 +43,19 @@ export const fetchPublished = () => {
           dispatch(fetchError(err.message || true));
         });
     }
+  };
+};
+
+export const postToAPI = (data) => {
+  return (dispatch) => {
+    dispatch(fetchStarted());
+    Axios.post(`http://localhost:8000/api/posts/add`, data)
+      .then((res) => {
+        dispatch(addPost(data));
+      })
+      .catch((err) => {
+        dispatch(fetchError(err.message || true));
+      });
   };
 };
 
@@ -60,18 +73,7 @@ export const fetchPostDetails = (_id) => {
   };
 };
 
-export const postToAPI = (post) => {
-  return (dispatch) => {
-    dispatch(fetchStarted());
-    Axios.post(`http://localhost:8000/api/posts/add`, post)
-      .then((res) => {
-        dispatch(addPost(post));
-      })
-      .catch((err) => {
-        dispatch(fetchError(err.message || true));
-      });
-  };
-};
+
 
 /* reducer */
 export const reducer = (statePart = [], action = {}) => {
