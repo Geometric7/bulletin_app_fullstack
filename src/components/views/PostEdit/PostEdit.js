@@ -34,7 +34,7 @@ class Component extends React.Component {
           <main className={styles.layout}>
             <Paper className={styles.paper}>
               <Typography component="h1" variant="h4" align="center">
-              Edit your announce
+              Edit your advertisement
               </Typography>
               <Grid container spacing={3}>
                 <Grid item xs={12} sm={6}>
@@ -103,7 +103,7 @@ class Component extends React.Component {
                     required
                     id="summary"
                     name="summary"
-                    label="Image title"
+                    label="Summary"
                     fullWidth
                     value={summary}
                   />
@@ -151,7 +151,7 @@ const mapDispatchToProps = dispatch => ({
   fetchPostDetails: (id) => dispatch(fetchPostDetails(id)),
 });
 
-const Container = connect(mapStateToProps)(Component);
+const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
 
 export {
   Container as PostEdit,

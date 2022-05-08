@@ -3,7 +3,7 @@ import Axios from 'axios';
 import { api } from '../settings.js';
 
 /* selectors */
-export const getAllPosts = ({posts}) => posts.data;
+export const getAllPosts = ({ posts }) => posts.data;
 export const getCurrentPost = ({ posts }) => posts.currentPost;
 export const getLoadingState = ({ posts }) => posts.loading;
 
@@ -46,7 +46,7 @@ export const fetchPublished = () => {
   };
 };
 
-export const fetchPostDetails = _id => {
+export const fetchPostDetails = (_id) => {
   return (dispatch, getState) => {
     dispatch(fetchStarted());
     Axios
@@ -61,15 +61,14 @@ export const fetchPostDetails = _id => {
 };
 
 export const postToAPI = (post) => {
-  return (dispatch, getState) => {
-    Axios
-      .put(`${api.url}/${api.posts}`, post)
-      .then(res => {
-        dispatch(addPost(res.data));
-        console.log(res.data);
+  return (dispatch) => {
+   dispatch(fetchStarted());
+   Axios.post(`http://localhost:8000/api/posts/add`, post)
+     .then((res) => {
+       dispatch(addPost(post));
       })
-      .catch(err => {
-        console.log(err);
+      .catch((err) => {
+  dispatch(fetchError(err.message || true));
       });
   };
 };

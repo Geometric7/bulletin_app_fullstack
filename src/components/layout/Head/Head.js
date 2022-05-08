@@ -23,7 +23,7 @@ const Component = ({ className, children, isLogged }) => {
         <div>
           <Grid container spacing={2} justifyContent="center">
             <Grid item>
-              {isLogged && <Button component={Link} className={styles.heroButtons} variant="contained" color="primary" to={`${process.env.PUBLIC_URL}/post/add`}>
+              {isLogged && <Button component={Link} className={styles.headButtons} variant="contained" color="primary" to={`${process.env.PUBLIC_URL}/post/add`}>
                 Add new Ad
               </Button>}
             </Grid>
@@ -48,10 +48,6 @@ Component.propTypes = {
 const mapStateToProps = state => ({
   isLogged: getLoginState(state),
 });
-
-// const mapDispatchToProps = dispatch => ({
-//   someAction: arg => dispatch(reduxActionCreator(arg)),
-// });
 
 const ReduxContainer = connect(mapStateToProps)(Component);
 

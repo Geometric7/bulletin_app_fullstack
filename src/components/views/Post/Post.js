@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import { getCurrentPost, fetchPostDetails } from '../../../redux/postsRedux';
 import { getLoginState } from '../../../redux/loginRedux';
 import { getCurrentUser } from '../../../redux/userRedux';
-// import { reduxSelector, reduxActionCreator } from '../../../redux/exampleRedux.js';
 import { Link } from 'react-router-dom';
 import styles from './Post.module.scss';
 import Grid from '@material-ui/core/Grid';
@@ -21,13 +20,13 @@ import Button from '@material-ui/core/Button';
 class Component extends React.Component {
 
   componentDidMount() {
-    const { match, fetchPostDetails } = this.props;
-    fetchPostDetails(match.params._id);
+    const { fetchPost } = this.props;
+    fetchPost();
   }
 
   render() {
     const { post, isLogged, currentUser } = this.props;
-    const { image, title, summary, text, created, status, location, price, _id, name, changed, phone, author } = post;
+    const { image, title, text, created, changed, status, location, price, _id, phone, author } = post;
     const { isAdmin, email } = currentUser;
     const isPostAuthor = author === email ? true : false;
 
@@ -37,8 +36,7 @@ class Component extends React.Component {
           <Card className={styles.card}>
             <CardMedia
               className={styles.cardMedia}
-              image={image}
-              title={summary}
+              image={image || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'}
             />
             <CardContent className={styles.cardContent}>
               <Typography className={styles.cardInfo}>
@@ -54,7 +52,7 @@ class Component extends React.Component {
                 {text}
               </Typography>
               <Typography className={styles.cardAuthor}>
-                {`Seller: ${name}`}
+                {`Seller: ${author}`}
               </Typography>
               <Typography className={styles.cardPhone}>
                 {`Phone: ${phone}`}
@@ -84,10 +82,9 @@ class Component extends React.Component {
 Component.propTypes = {
   children: PropTypes.node,
   post: PropTypes.object,
-  match: PropTypes.object,
   isLogged: PropTypes.bool,
   currentUser: PropTypes.object,
-  fetchPostDetails: PropTypes.func,
+  fetchPost: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
@@ -96,10 +93,9 @@ const mapStateToProps = state => ({
   currentUser: getCurrentUser(state),
 });
 
-const mapDispatchToProps = dispatch => ({
-  fetchPostDetails: (id) => dispatch(fetchPostDetails(id)),
+const mapDispatchToProps = (dispatch, props) => ({
+  fetchPost: () => dispatch(fetchPostDetails(props.match.params._id)),
 });
-
 
 const ReduxContainer = connect(mapStateToProps, mapDispatchToProps)(Component);
 

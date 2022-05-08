@@ -15,7 +15,7 @@ const Component = ({post}) => {
 
   return (
 
-    <Link underline='none' href={`${process.env.PUBLIC_URL}/post/${_id}`} className={styles.link}>
+    <Link underline='none' href={`${process.env.PUBLIC_URL}/post/${_id}`}>
       <Card className={styles.card}>
         <CardMedia
           className={styles.cardMedia}

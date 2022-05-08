@@ -42,10 +42,6 @@ Component.propTypes = {
 const mapStateToProps = state => ({
 });
 
-// const mapDispatchToProps = dispatch => ({
-//   someAction: arg => dispatch(reduxActionCreator(arg)),
-// });
-
 const mapDispatchToProps = dispatch => ({
   updateLoginStatus: log => dispatch(updateLoginStatus(log)),
 });
