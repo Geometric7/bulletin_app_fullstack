@@ -46,15 +46,15 @@ export const fetchPublished = () => {
   };
 };
 
-export const postToAPI = (data) => {
+export const postToAPI = (post) => {
   return (dispatch) => {
     dispatch(fetchStarted());
-    Axios.post(`http://localhost:8000/api/posts/add`, data)
+    Axios.post(`http://localhost:8000/api/posts/add`, post)
       .then((res) => {
-        dispatch(addPost(data));
+        console.log(res);
       })
       .catch((err) => {
-        dispatch(fetchError(err.message || true));
+        console.log(err);
       });
   };
 };
