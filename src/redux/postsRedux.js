@@ -46,18 +46,6 @@ export const fetchPublished = () => {
   };
 };
 
-export const postToAPI = (data) => {
-  return (dispatch) => {
-    dispatch(fetchStarted());
-    Axios.post(`http://localhost:8000/api/posts/add`, data)
-      .then((res) => {
-        dispatch(addPost(data));
-      })
-      .catch((err) => {
-        dispatch(fetchError(err.message || true));
-      });
-  };
-};
 
 export const fetchPostDetails = (_id) => {
   return (dispatch, getState) => {
@@ -73,6 +61,21 @@ export const fetchPostDetails = (_id) => {
   };
 };
 
+export const postToAPI = (post) => {
+  console.log('in fetch post', post);
+
+  return (dispatch) => {
+    dispatch(fetchStarted());
+    Axios.post(`http://localhost:8000/api/posts/add`, post)
+      .then((res) => {
+        //dispatch(fetchSuccess(post));
+        dispatch(addPost(res.post));
+      })
+      .catch((err) => {
+        dispatch(fetchError(err.message || true));
+      });
+  };
+};
 
 
 /* reducer */
