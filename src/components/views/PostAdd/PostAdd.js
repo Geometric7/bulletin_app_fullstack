@@ -67,7 +67,7 @@ class Component extends React.Component {
       post.changed = post.created;
 
       addNewPost(post);
-      console.log('add', addNewPost(post));
+      //console.log('add', addNewPost(post));
 
       alert('Thank you for your add!');
     } else {

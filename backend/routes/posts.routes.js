@@ -93,12 +93,19 @@ router.post('/posts/add', async (req, res) => {
         phone: phone,
         location: location,
       });
-      await newPost.save();
-      res.json({ message: 'OK' });
+      //await newPost.save();
+      //res.json({ message: 'OK' });
+
+      await newPost.save((err, post) => {
+        res.json(post);
+      });
+
+
     } else {
       throw new Error('Wrong input!');
     }
   } catch (err) {
+    console.log(err);
     res.status(400).json(err);
   }
 });

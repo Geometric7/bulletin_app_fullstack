@@ -69,7 +69,7 @@ export const postToAPI = (post) => {
     Axios.post(`http://localhost:8000/api/posts/add`, post)
       .then((res) => {
         dispatch(addPost(res.data));
-        dispatch(fetchSuccess(res.data));
+        dispatch(fetchPostSuccess(res.data));
 
       })
       .catch((err) => {
